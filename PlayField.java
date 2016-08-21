@@ -1,4 +1,5 @@
-package nl.bryanwesterveld;
+import java.util.Random;
+import java.util.Scanner;
 
 public class PlayField {
 	private String[] cells;
@@ -30,7 +31,7 @@ public class PlayField {
 	}
 	
 	public boolean checkWinner() {
-		return (checkHor() || checkVer() || checkDia())? true : false;
+		return (checkHor() || checkVer() || checkDia() || checkTie())? true : false;
 	}
 	
 	// 0 1 2
@@ -68,5 +69,13 @@ public class PlayField {
 		else if (cells[2] == cells[4] && cells[4] == cells[6] && cells[2] != " ")
 			return true;
 		return false;
+	}
+	
+	public boolean checkTie() {
+		for (String cell : cells) {
+			if (cell == " ")
+				return false;
+		}
+		return true;
 	}
 }

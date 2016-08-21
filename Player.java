@@ -1,5 +1,4 @@
-package nl.bryanwesterveld;
-
+import java.util.Random;
 import java.util.Scanner;
 
 //By using an abstract class all kinds of players can be made to work without changing anything in other classes.

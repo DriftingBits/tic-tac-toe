@@ -1,6 +1,6 @@
-package nl.bryanwesterveld;
-
+import java.util.Random;
 import java.util.Scanner;
+
 
 public class HumanPlayer extends Player {
 	private String color;
