@@ -18,7 +18,7 @@ public class PlayField {
 	
 	//All empty cells have a space in them.
 	public boolean isCellOccupied(int cellNumber) {
-		if(cells[cellNumber] == " ") 
+		if(cells[cellNumber].equals(" ")) 
 			return false;
 		else
 			return true;
@@ -62,7 +62,7 @@ public class PlayField {
 				recent[1] = recent[0];
 				recent[0] = cells[(row*width)+column];
 				
-				if(recent[0] == recent[1] && recent[1] == recent[2] && recent[0] != " ")
+				if(recent[0].equals(recent[1]) && recent[1].equals(recent[2]) && !recent[0].equals(" "))
 					return true;
 			}
 		}
@@ -81,7 +81,7 @@ public class PlayField {
 				recent[1] = recent[0];
 				recent[0] = cells[(row*width)+column];
 				
-				if(recent[0] == recent[1] && recent[1] == recent[2] && recent[0] != " ")
+				if(recent[0].equals(recent[1]) && recent[1].equals(recent[2]) && !recent[0].equals(" "))
 					return true;
 			}
 		}
@@ -98,7 +98,7 @@ public class PlayField {
 			recent[1] = recent[0];
 			recent[0] = cells[cell];
 			
-			if(recent[0] == recent[1] && recent[1] == recent[2] && recent[0] != " ")
+			if(recent[0].equals(recent[1]) && recent[1].equals(recent[2]) && !recent[0].equals(" "))
 				return true;
 		}
 		
@@ -110,7 +110,7 @@ public class PlayField {
 			recent[1] = recent[0];
 			recent[0] = cells[cell];
 			
-			if(recent[0] == recent[1] && recent[1] == recent[2] && recent[0] != " ")
+			if(recent[0].equals(recent[1]) && recent[1].equals(recent[2]) && !recent[0].equals(" "))
 				return true;
 		}
 		return false;
@@ -118,7 +118,7 @@ public class PlayField {
 	
 	public boolean checkTie() {
 		for (String cell : cells) {
-			if (cell == " ")
+			if (cell.equals(" "))
 				return false;
 		}
 		return true;

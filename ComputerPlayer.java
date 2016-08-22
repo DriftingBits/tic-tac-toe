@@ -1,7 +1,7 @@
 import java.util.Random;
 import java.util.Scanner;
 
-public class ComputerPlayer extends Player {
+public class ComputerPlayer implements Player {
 	String color;
 	Random rand;
 	int guessRange;

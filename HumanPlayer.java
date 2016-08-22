@@ -4,7 +4,7 @@ import java.util.InputMismatchException;
 import java.lang.ArrayIndexOutOfBoundsException;
 
 
-public class HumanPlayer extends Player {
+public class HumanPlayer implements Player {
 	private String color;
 	
 	//The string "color" determines whether this player should appear as a circle or a cross.
