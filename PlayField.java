@@ -3,10 +3,15 @@ import java.util.Scanner;
 
 public class PlayField {
 	private String[] cells;
+	private int width;
+	private int height;
 	
-	public PlayField() {
-		cells = new String[9];
-		for (int i = 0; i < 9; i++){
+	public PlayField(int width, int height) {
+		cells = new String[width * height];
+		this.width = width;
+		this.height = height;
+		
+		for (int i = 0; i < width * height; i++){
 			cells[i] = " ";
 		}
 	}
@@ -20,54 +25,94 @@ public class PlayField {
 	}
 	
 	//The string "color" determines whether this player should appear as a circle or a cross.
-	public void setCell(int cellNumber, String color) {
+	public void setCell(int cellNumber, String color) throws ArrayIndexOutOfBoundsException {
 		cells[cellNumber] = color;
 	}
-	
+
+	//Since it is a 1D array if you want to get a value from cells you need to multiple the width with the row, else you"ll get a number in the same row.
 	public void print() {
-		System.out.printf("%s | %s | %s \r\n", cells[0], cells[1], cells[2]);
-		System.out.printf("%s | %s | %s \r\n", cells[3], cells[4], cells[5]);
-		System.out.printf("%s | %s | %s \r\n", cells[6], cells[7], cells[8]);
+		for(int row = 0; row < height; row++) {
+			for(int column = 0; column < width; column++) {
+				System.out.printf("| %s ", cells[(row*width)+column]);
+			}
+			System.out.print("| \r\n");
+		}
 	}
 	
-	public boolean checkWinner() {
-		return (checkHor() || checkVer() || checkDia() || checkTie())? true : false;
-	}
-	
-	// 0 1 2
-	// 3 4 5
-	// 6 7 8
-	//The following indexes are i, i+1 and i+2 because a horizontal row consists of 3 numbers.
-	public boolean checkHor() {
-		for(int i = 0; i < 3; i++){
-			if(cells[i] == cells[i+1] && cells[i+1] == cells[i+2] && cells[i] != " ")
-				return true;
+	public boolean checkWinner(Player player) {
+		if(checkHor() || checkVer() || checkDia()) {
+			System.out.printf("Player: %s has won!", player.getColor());
+			return true;
+		} else if (checkTie()){
+			System.out.printf("There was a tie, please play another game!");
+			return true;
 		}
 		return false;
 	}
 	
-	// 0 1 2
-	// 3 4 5
-	// 6 7 8
-	//The following indexes are i, i+3 and i+6 because a vertical row consists of 3 numbers, the +3 means
-	//It will start on a new line.
+	//Since it is a 1D array if you want to get a value from cells you need to multiple the width with the row, else you"ll get a number in the same row.
+	public boolean checkHor() {
+		String[] recent = new String[3];
+		for(int row = 0; row < height; row++){
+			for(int i = 0; i < recent.length; i++)
+				recent[i] = " ";
+			
+			for(int column = 0; column < width; column++) {
+				recent[2] = recent[1];
+				recent[1] = recent[0];
+				recent[0] = cells[(row*width)+column];
+				
+				if(recent[0] == recent[1] && recent[1] == recent[2] && recent[0] != " ")
+					return true;
+			}
+		}
+		return false;
+	}
+	
+	//Since it is a 1D array if you want to get a value from cells you need to multiple the width with the row, else you"ll get a number in the same row.
 	public boolean checkVer() {
-		for(int i = 0; i < 3; i++){
-			if(cells[i] == cells[i+3] && cells[i+3] == cells[i+6] && cells[i] != " ")
-				return true;
+		String[] recent = new String[3];
+		for(int column = 0; column < width; column++){
+			for(int i = 0; i < recent.length; i++)
+				recent[i] = " ";
+			
+			for(int row = 0; row < height; row++) {
+				recent[2] = recent[1];
+				recent[1] = recent[0];
+				recent[0] = cells[(row*width)+column];
+				
+				if(recent[0] == recent[1] && recent[1] == recent[2] && recent[0] != " ")
+					return true;
+			}
 		}
 		return false;
 	}
 
-	// 0 1 2
-	// 3 4 5
-	// 6 7 8
-	// These special cases are hardcoded because a for loop wouldn't have really helped making it more clear.
 	public boolean checkDia() {
-		if(cells[0] == cells[4] && cells[4] == cells[8] && cells[0] != " ")
-			return true;
-		else if (cells[2] == cells[4] && cells[4] == cells[6] && cells[2] != " ")
-			return true;
+		String[] recent = new String[3];
+		for(int i = 0; i < recent.length; i++)
+				recent[i] = " ";
+			
+		for(int cell = 0; cell < width*height; cell += (width + 1)) {
+			recent[2] = recent[1];
+			recent[1] = recent[0];
+			recent[0] = cells[cell];
+			
+			if(recent[0] == recent[1] && recent[1] == recent[2] && recent[0] != " ")
+				return true;
+		}
+		
+		for(int i = 0; i < recent.length; i++)
+				recent[i] = " ";
+		
+		for(int cell = 0; cell < width*height; cell += (width - 1)) {
+			recent[2] = recent[1];
+			recent[1] = recent[0];
+			recent[0] = cells[cell];
+			
+			if(recent[0] == recent[1] && recent[1] == recent[2] && recent[0] != " ")
+				return true;
+		}
 		return false;
 	}
 	

@@ -1,5 +1,7 @@
 import java.util.Random;
 import java.util.Scanner;
+import java.util.InputMismatchException;
+import java.lang.ArrayIndexOutOfBoundsException;
 
 
 public class HumanPlayer extends Player {
@@ -19,12 +21,16 @@ public class HumanPlayer extends Player {
 	public void makeMove(PlayField field, Scanner scan) {
 		while(true) {
 			System.out.printf("Player %s, please enter a valid number: ", color);
-			int move = scan.nextInt();
-			
-			//Because arrays start at 0 and you are supposed to enter a number from 1 - 9, "move - 1" is used.
-			if(!field.isCellOccupied(move - 1)) {
-				field.setCell(move - 1, color);
-				return;
+			try {
+				int move = scan.nextInt();
+				if(!field.isCellOccupied(move - 1)) {
+					field.setCell(move - 1, color);
+					return;
+				}
+			} catch (InputMismatchException e) {
+				scan.next();
+			} catch (ArrayIndexOutOfBoundsException e) {
+				continue;
 			}
 		}
 	}
